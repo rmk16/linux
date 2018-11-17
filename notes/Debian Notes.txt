@@ -1,0 +1,235 @@
+Install and enable sudo
+--------------------------------------------------------------------------------
+su
+apt install sudo
+adduser phil sudo
+
+
+
+
+
+Eliminate Screen Tearing
+--------------------------------------------------------------------------------
+sudo nano /usr/share/X11/xorg.conf.d/20-intel.conf
+
+Section "Device"
+    Identifier  "Intel Graphics"  
+    Driver      "intel"  
+    Option      "AccelMethod"   "sna"  
+    Option      "TearFree"      "true"  
+EndSection
+
+
+
+
+
+Section "Device"
+    Identifier  "Intel Graphics"
+    Driver      "intel"
+    Option      "TearFree" "true"
+EndSection
+
+
+Section "Device"
+    Identifier  "Intel Graphics"
+    Driver      "intel"
+    Option      "AccelMethod" "sna"
+    Option      "DRI" "3"
+EndSection
+
+
+Section "Device"
+    Identifier  "Intel Graphics"
+    Driver      "intel"
+    Option      "AccelMethod" "sna"
+    Option      "DRI" "3"
+    Option      "TearFree" "true"
+EndSection
+
+
+Section "Device"
+    Identifier  "Intel Graphics"
+    Driver      "intel"
+    Option      "AccelMethod" "uxa"
+EndSection
+
+
+
+
+
+Improve font rendering
+--------------------------------------------------------------------------------
+In gnome-tweak-tool change ‘Hinting’ to ‘Slight’, and ‘Antialiasing’ to ‘Rgba’
+
+sudo nano /etc/fonts/local.conf
+
+<?xml version='1.0'?>
+<!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+<fontconfig>
+<match target="font">
+    <edit mode="assign" name="rgba">
+            <const>rgb</const>
+    </edit>
+</match>
+<match target="font">
+    <edit mode="assign" name="hinting">
+            <bool>true</bool>
+    </edit>
+</match>
+<match target="font">
+    <edit mode="assign" name="hintstyle">
+            <const>hintslight</const>
+    </edit>
+</match>
+<match target="font">
+    <edit mode="assign" name="antialias">
+            <bool>true</bool>
+    </edit>
+</match>
+<match target="font">
+    <edit mode="assign" name="lcdfilter">
+            <const>lcddefault</const>
+    </edit>
+</match>
+</fontconfig>
+
+
+sudo nano .Xresources
+
+Xft.autohint: true
+Xft.antialias: true
+Xft.hinting: true
+Xft.hintstyle: hintslight
+!Xft.dpi: 96
+Xft.rgba: rgb
+Xft.lcdfilter: lcddefault
+
+
+
+Window Titles:  Noto Sans UI Regular, 10
+Interface:      Noto Sans UI Regular, 10
+Documents:      Arial Regular, 11
+Monospace:      Monospace Regular, 11
+
+
+
+
+
+Install Stuff
+--------------------------------------------------------------------------------
+arc-theme
+cmus
+curl
+dconf-editor
+easytag
+eog
+file-roller
+fonts-noto-hinted
+gcolor2
+gedit
+gpick
+git
+gnome-clocks
+gnome-disk-utility
+i3lock
+intel-microcode
+lightdm-gtk-greeter-settings
+mlocate
+mpv (remove youtube-dl)
+network-manager-openvpn
+network-manager-openvpn-gnome
+puddletag
+qt4-qtconfig
+redshift
+rhythmbox
+rsync
+thunderbird
+transmission
+tree
+ttf-mscorefonts-installer
+unrar
+
+
+airvpn (libcanberra-gtk-module)
+calibre
+keepassxc
+Google Chrome
+youtube-dl
+
+
+
+
+
+Diable Tracker
+--------------------------------------------------------------------------------
+sudo apt install tracker-preferences
+
+Do not index contents of files
+
+
+
+
+
+Change DNS Servers
+--------------------------------------------------------------------------------
+Cloudflare
+1.1.1.1 and 1.0.0.1
+
+Quad9
+9.9.9.9 and 149.112.112.112
+
+Google
+8.8.8.8 8.8.4.4
+
+
+
+
+
+Configure aliases
+--------------------------------------------------------------------------------
+nano ~/.bash_aliases
+
+alias backupold='rsync -avP --delete --log-file=log.txt --exclude=.airvpn/ --exclude=.cache/ --exclude=.local/share/Trash/ /home/phil/ /media/phil/backup-phil/'
+alias backup='rsync -avP --delete --log-file=log.txt --exclude=.airvpn/ --exclude=.cache/ --exclude=.local/share/Trash/ /home/phil/ /media/phil/backup-phil-new/phil/'
+alias cdd='cd ~/Downloads/'
+alias cdy='cd ~/Downloads/Youtube/'
+alias cliptocomp='rsync -avP --delete /media/phil/0123-4567/PODCASTS/ /home/phil/Podcasts/OnClip/'
+alias firetest='/home/phil/.firefox-latest/firefox -p quantum-test'
+alias pod='cp -v /home/phil/Downloads/Podcasts/*.mp3 /media/phil/0123-4567/PODCASTS/ && mv -v /home/phil/Downloads/Podcasts/*.mp3 /home/phil/Podcasts/OnClip/ && rsync -avP --delete /media/phil/0123-4567/PODCASTS/ /home/phil/Podcasts/OnClip/'
+alias saar='sudo apt autoremove'
+alias sai='sudo apt install'
+alias sal='sudo apt list'
+alias sap='sudo apt purge'
+alias sar='sudo apt remove'
+alias sash='sudo apt show'
+alias sas='sudo apt search'
+alias sau='sudo apt update && sudo apt upgrade'
+alias vpn='eddie-ui'
+alias ytdlup='sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl && sudo chmod a+rx /usr/local/bin/youtube-dl'
+alias ytdl='youtube-dl'
+
+
+
+
+
+Center New Windows
+--------------------------------------------------------------------------------
+Open dconf Editor, org
+
+org/gnome/mutter
+
+center new windows - true
+
+
+
+
+
+Torrent Speed Using VPN
+--------------------------------------------------------------------------------
+Make sure 'utp' is disabled to get good speed using a VPN.
+
+
+
+
+
+

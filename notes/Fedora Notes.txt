@@ -1,0 +1,307 @@
+Update the system
+----------------------------------------
+sudo dnf upgrade
+
+
+
+
+
+Enable RPM Fusion repositories
+----------------------------------------
+sudo dnf install http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+
+
+
+
+
+Install Programs
+----------------------------------------
+sudo dnf install calibre dconf-editor ffmpeg gimp glances gnome-dictionary gnome-music gnome-terminal-nautilus gnome-system-log gnome-tweak-tool google-droid-sans-fonts google-droid-sans-mono-fonts google-noto-sans-fonts gparted keepassxc mc mediawriter mpv nano p7zip puddletag ranger thunderbird transmission-gtk unrar vlc youtube-dl
+
+arc-theme
+cmus
+curl
+dconf-editor
+easytag
+eog
+file-roller
+fonts-noto-hinted
+gcolor2
+gedit
+gpick
+git
+gnome-clocks
+gnome-disk-utility
+i3lock
+intel-microcode
+lightdm-gtk-greeter-settings
+mlocate
+mpv (remove youtube-dl)
+network-manager-openvpn
+network-manager-openvpn-gnome
+puddletag
+qt4-qtconfig
+redshift
+rhythmbox
+rsync
+thunderbird
+transmission
+tree
+ttf-mscorefonts-installer
+unrar
+
+
+airvpn (libcanberra-gtk-module)
+calibre
+keepassxc
+Google Chrome
+youtube-dl
+
+
+
+
+
+Install codecs
+----------------------------------------
+
+compat-ffmpeg28
+
+gstreamer1-libav
+
+
+sudo dnf install faac faad2 gstreamer1 gstreamer1-libav gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free-extras gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-nonfree gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-good-extras gstreamer1-plugins-ugly-free gstreamer gstreamer-ffmpeg gstreamer-plugins-bad gstreamer-plugins-bad-free gstreamer-plugins-bad-free-extras gstreamer-plugins-bad-nonfree gstreamer-plugins-base gstreamer-plugins-good gstreamer-plugins-good-extras gstreamer-plugins-ugly x264 x265 xvidcore
+
+
+
+
+
+Improve font rendering
+----------------------------------------
+sudo dnf install freetype-freeworld
+
+In gnome-tweak-tool change ‘Hinting’ to ‘Slight’, and ‘Antialiasing’ to ‘Rgba’
+
+sudo nano /etc/fonts/local.conf
+
+<?xml version='1.0'?>
+<!DOCTYPE fontconfig SYSTEM 'fonts.dtd'>
+<fontconfig>
+<match target="font">
+    <edit mode="assign" name="rgba">
+            <const>rgb</const>
+    </edit>
+</match>
+<match target="font">
+    <edit mode="assign" name="hinting">
+            <bool>true</bool>
+    </edit>
+</match>
+<match target="font">
+    <edit mode="assign" name="hintstyle">
+            <const>hintslight</const>
+    </edit>
+</match>
+<match target="font">
+    <edit mode="assign" name="antialias">
+            <bool>true</bool>
+    </edit>
+</match>
+<match target="font">
+    <edit mode="assign" name="lcdfilter">
+            <const>lcddefault</const>
+    </edit>
+</match>
+</fontconfig>
+
+
+sudo nano .Xresources
+
+Xft.autohint: true
+Xft.antialias: true
+Xft.hinting: true
+Xft.hintstyle: hintslight
+!Xft.dpi: 96
+Xft.rgba: rgb
+Xft.lcdfilter: lcddefault
+
+
+
+http://mscorefonts2.sourceforge.net/
+
+
+sudo mv /home/phil/Downloads/Fonts/* /usr/share/fonts
+
+
+
+Window Titles: Noto Sans Bold, 10
+Interface: Noto Sans Regular, 10
+Documents: Noto Sans Regular, 10
+Monospace: Droid Sans Mono Regular, 11
+
+
+
+
+
+Install Google Chrome
+----------------------------------------
+sudo dnf install fedora-workstation-repositories
+sudo dnf config-manager --set-enabled google-chrome
+sudo dnf install google-chrome-stable
+
+
+
+sudo nano /etc/yum.repos.d/google-chrome.repo
+
+[google-chrome]
+name=google-chrome - \$basearch
+baseurl=http://dl.google.com/linux/chrome/rpm/stable/\$basearch
+enabled=1
+gpgcheck=1
+gpgkey=https://dl-ssl.google.com/linux/linux_signing_key.pub
+
+sudo dnf install google-chrome-stable
+
+
+
+
+
+Configure aliases
+----------------------------------------
+nano ~/.bashrc
+
+Add these to the bottom of the file:
+
+alias backupold='rsync -avP --delete --log-file=log.txt --exclude=.cache/ --exclude=.local/share/Trash/ /home/phil/ /run/media/phil/backup-phil/'
+alias backup='rsync -avP --delete --log-file=log.txt --exclude=.cache/ --exclude=.local/share/Trash/ /home/phil/ /run/media/phil/backup-phil-new/phil/'
+alias cdd='cd Downloads/'
+alias cdy='cd ~/Downloads/Youtube/'
+alias cliptocomp='rsync -avP --delete /run/media/phil/0123-4567/PODCASTS/ /home/phil/Podcasts/OnClip/'
+alias firetest='firefox -p test'
+alias pod='cp -v /home/phil/Downloads/Podcasts/*.mp3 /run/media/phil/0123-4567/PODCASTS/ && mv -v /home/phil/Downloads/Podcasts/*.mp3 /home/phil/Podcasts/OnClip/ && rsync -avP --delete /run/media/phil/0123-4567/PODCASTS/ /home/phil/Podcasts/OnClip/'
+alias sdca='sudo dnf clean all'
+alias sdi='sudo dnf install'
+alias sdr='sudo dnf remove'
+alias sds='sudo dnf search'
+alias sdu='sudo dnf upgrade --refresh'
+alias vpn='sudo eddie-ui'
+alias ytdl='youtube-dl'
+alias ytdlup='sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl && sudo chmod a+rx /usr/local/bin/youtube-dl'
+
+
+
+
+
+Center New Windows
+----------------------------------------
+Open dconf Editor, org
+
+gnome > mutter
+
+center new windows - true
+
+
+
+
+
+Disable automatic download of updates
+----------------------------------------
+Open dconf-editor
+
+Set 'org/gnome/software/download-updates' to false.
+
+
+
+
+
+Torrent Speed Using VPN
+----------------------------------------
+Make sure 'utp' is disabled to get good speed using a VPN.
+
+
+
+
+
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+Disable SSHD
+----------------------------------------
+systemctl status sshd.service
+systemctl disable sshd.service
+systemctl stop sshd.service
+
+
+
+
+
+Install Flash
+----------------------------------------
+sudo dnf install http://linuxdownload.adobe.com/adobe-release/adobe-release-x86_64-1.0-1.noarch.rpm
+sudo dnf install flash-plugin
+
+
+
+
+
+Permissions
+----------------------------------------
+http://serverfault.com/questions/35076/need-to-fix-file-permissions-in-a-users-home-directory
+
+Default: 
+find /home/user -type d -print0 | xargs -0 chmod 0755
+find /home/user -type f -print0 | xargs -0 chmod 0664
+
+
+Save the following as 'permissions' and run ./permissions:
+
+find /home/phil/Books -type d -print0 | xargs -0 chmod 0755
+find /home/phil/Books -type f -print0 | xargs -0 chmod 0664
+find /home/phil/Desktop -type d -print0 | xargs -0 chmod 0755
+find /home/phil/Desktop -type f -print0 | xargs -0 chmod 0664
+find /home/phil/Documents -type d -print0 | xargs -0 chmod 0755
+find /home/phil/Documents -type f -print0 | xargs -0 chmod 0664
+find /home/phil/Downloads -type d -print0 | xargs -0 chmod 0755
+find /home/phil/Downloads -type f -print0 | xargs -0 chmod 0664
+find /home/phil/Music -type d -print0 | xargs -0 chmod 0755
+find /home/phil/Music -type f -print0 | xargs -0 chmod 0664
+find /home/phil/Pictures -type d -print0 | xargs -0 chmod 0755
+find /home/phil/Pictures -type f -print0 | xargs -0 chmod 0664
+find /home/phil/Podcasts -type d -print0 | xargs -0 chmod 0755
+find /home/phil/Podcasts -type f -print0 | xargs -0 chmod 0664
+find /home/phil/Videos -type d -print0 | xargs -0 chmod 0755
+find /home/phil/Videos -type f -print0 | xargs -0 chmod 0664
+find /home/phil/.database -type d -print0 | xargs -0 chmod 0755
+find /home/phil/.database -type f -print0 | xargs -0 chmod 0664
+
+
+
+
+
+Trim
+----------------------------------------
+sudo systemctl enable fstrim.timer
+sudo systemctl start fstrim.timer
+
+sudo nano /etc/crypttab
+Add 'discard' to the end of every line
+
+Update initramfs
+sudo dracut -f
+
+Reboot
+
+sudo fstrim -v /
+
+If it works it will give you an amount of blocks that were trimmed.
+
+
+
+
+

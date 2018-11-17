@@ -1,0 +1,58 @@
+
+Panel
+------------------------------
+
+Height: 40px
+Alpha: 90
+
+Whisker Menu
+Seperator (Transparent)
+Launcher (Chrome)
+Seperator (Transparent)
+Launcher (Files)
+Seperator (Transparent)
+Launcher (Terminal)
+Seperator (Transparent)
+Window Buttons
+Seperator (Transparent, Expand)
+Notification Area
+DateTime
+
+
+
+
+
+DateTime Plugin
+------------------------------
+
+Time Only
+31/12/99
+Arial, 20
+23:59
+
+
+
+
+
+Clock Plugin
+------------------------------
+%A, %B %d, %R
+
+
+
+
+
+Whisker Menu Keyboard
+------------------------------
+xfce4-popup-whiskermenu
+
+
+
+
+
+XFCE Terminal Background Color
+------------------------------
+#2F343F
+
+Highlight: #5294E2
+Panel: #2B2E37
