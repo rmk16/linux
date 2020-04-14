@@ -6,9 +6,29 @@ sudo dnf upgrade
 
 
 
+Show list of DNF groups
+----------------------------------------
+dnf grouplist
+
+
+
+
+
+Disable Tracker
+----------------------------------------
+gsettings set org.freedesktop.Tracker.Miner.Files enable-monitors false
+
+gsettings set org.freedesktop.Tracker.Miner.Files ignored-files "['*']"
+
+gsettings set org.freedesktop.Tracker.Miner.Files crawling-interval -2
+
+
+
+
+
 Enable RPM Fusion repositories
 ----------------------------------------
-sudo dnf install http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
+sudo dnf install https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-$(rpm -E %fedora).noarch.rpm https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-$(rpm -E %fedora).noarch.rpm
 
 
 
@@ -16,29 +36,39 @@ sudo dnf install http://download1.rpmfusion.org/free/fedora/rpmfusion-free-relea
 
 Install Programs
 ----------------------------------------
-sudo dnf install calibre dconf-editor ffmpeg gimp glances gnome-dictionary gnome-music gnome-terminal-nautilus gnome-system-log gnome-tweak-tool google-droid-sans-fonts google-droid-sans-mono-fonts google-noto-sans-fonts gparted keepassxc mc mediawriter mpv nano p7zip puddletag ranger thunderbird transmission-gtk unrar vlc youtube-dl
-
+alsa-tools
 arc-theme
+asunder
 cmus
 curl
 dconf-editor
 easytag
 eog
+ffmpeg
 file-roller
 fonts-noto-hinted
 gcolor2
 gedit
+google-noto-sans-fonts
 gpick
+gimp
 git
 gnome-clocks
 gnome-disk-utility
+gnome-music
+htop
 i3lock
 intel-microcode
+keepassxc
 lightdm-gtk-greeter-settings
 mlocate
 mpv (remove youtube-dl)
+nautilus
+ncdu
 network-manager-openvpn
 network-manager-openvpn-gnome
+p7zip
+pdf-stapler
 puddletag
 qt4-qtconfig
 redshift
@@ -53,9 +83,11 @@ unrar
 
 airvpn (libcanberra-gtk-module)
 calibre
-keepassxc
 Google Chrome
 youtube-dl
+
+
+sudo dnf group install "C Development Tools and Libraries"
 
 
 
@@ -64,12 +96,21 @@ youtube-dl
 Install codecs
 ----------------------------------------
 
-compat-ffmpeg28
+sudo dnf groupinstall Multimedia ; sudo dnf groupupdate Multimedia
 
-gstreamer1-libav
+sudo dnf groupupdate Multimedia
+sudo dnf groupupdate sound-and-video
 
 
-sudo dnf install faac faad2 gstreamer1 gstreamer1-libav gstreamer1-plugins-bad-free gstreamer1-plugins-bad-free-extras gstreamer1-plugins-bad-freeworld gstreamer1-plugins-bad-nonfree gstreamer1-plugins-base gstreamer1-plugins-good gstreamer1-plugins-good-extras gstreamer1-plugins-ugly-free gstreamer gstreamer-ffmpeg gstreamer-plugins-bad gstreamer-plugins-bad-free gstreamer-plugins-bad-free-extras gstreamer-plugins-bad-nonfree gstreamer-plugins-base gstreamer-plugins-good gstreamer-plugins-good-extras gstreamer-plugins-ugly x264 x265 xvidcore
+
+
+
+Colour terminal prompt
+----------------------------------------
+.bashrc
+
+# Colour prompt
+export PS1="\e[0;92m[\u@\h \W]\$ \e[m"
 
 
 
@@ -77,8 +118,6 @@ sudo dnf install faac faad2 gstreamer1 gstreamer1-libav gstreamer1-plugins-bad-f
 
 Improve font rendering
 ----------------------------------------
-sudo dnf install freetype-freeworld
-
 In gnome-tweak-tool change ‘Hinting’ to ‘Slight’, and ‘Antialiasing’ to ‘Rgba’
 
 sudo nano /etc/fonts/local.conf
@@ -133,10 +172,9 @@ sudo mv /home/phil/Downloads/Fonts/* /usr/share/fonts
 
 
 
-Window Titles: Noto Sans Bold, 10
-Interface: Noto Sans Regular, 10
-Documents: Noto Sans Regular, 10
-Monospace: Droid Sans Mono Regular, 11
+Update font cache:
+
+fc-cache -v
 
 
 
@@ -169,24 +207,39 @@ Configure aliases
 ----------------------------------------
 nano ~/.bashrc
 
-Add these to the bottom of the file:
-
-alias backupold='rsync -avP --delete --log-file=log.txt --exclude=.cache/ --exclude=.local/share/Trash/ /home/phil/ /run/media/phil/backup-phil/'
-alias backup='rsync -avP --delete --log-file=log.txt --exclude=.cache/ --exclude=.local/share/Trash/ /home/phil/ /run/media/phil/backup-phil-new/phil/'
-alias cdd='cd Downloads/'
+alias backupold='rsync -avP --delete --log-file=log.txt --exclude=.airvpn/ --exclude=.cache/ --exclude=.local/share/Trash/ /home/phil/ /run/media/phil/backup-phil/'
+alias backup='rsync -avP --delete --log-file=log.txt --exclude=.airvpn/ --exclude=.cache/ --exclude=.local/share/Trash/ /home/phil/ /run/media/phil/backup-phil-new/phil/'
+alias cdd='cd ~/Downloads/'
+alias cdn='cd ~/Downloads/NFL/'
 alias cdy='cd ~/Downloads/Youtube/'
 alias cliptocomp='rsync -avP --delete /run/media/phil/0123-4567/PODCASTS/ /home/phil/Podcasts/OnClip/'
-alias firetest='firefox -p test'
+alias fireb='/home/phil/.firefox-beta/firefox'
+alias firebtest='/home/phil/.firefox-beta/firefox -p test'
+alias ft='firefox -p test'
+alias makedwm='cd ~/Documents/Linux/Applications/dwm/ && sudo make clean install'
+alias mvvid='mv /home/phil/Downloads/*/*.mkv /home/phil/Downloads/'
 alias pod='cp -v /home/phil/Downloads/Podcasts/*.mp3 /run/media/phil/0123-4567/PODCASTS/ && mv -v /home/phil/Downloads/Podcasts/*.mp3 /home/phil/Podcasts/OnClip/ && rsync -avP --delete /run/media/phil/0123-4567/PODCASTS/ /home/phil/Podcasts/OnClip/'
+alias rs='redshift'
 alias sdca='sudo dnf clean all'
 alias sdi='sudo dnf install'
 alias sdr='sudo dnf remove'
 alias sds='sudo dnf search'
-alias sdu='sudo dnf upgrade --refresh'
-alias vpn='sudo eddie-ui'
-alias ytdl='youtube-dl'
+alias sdu='sudo dnf --refresh upgrade'
+alias vpn='eddie-ui'
 alias ytdlup='sudo curl -L https://yt-dl.org/downloads/latest/youtube-dl -o /usr/local/bin/youtube-dl && sudo chmod a+rx /usr/local/bin/youtube-dl'
+alias ytdl='youtube-dl'
+alias ytdlb='youtube-dl -f best'
+alias ytdll='ytdl --list-formats'
 
+
+
+
+
+Don't save duplicate commands or commands preceded by a space
+----------------------------------------
+nano ~/.bashrc
+
+HISTCONTROL=ignoreboth
 
 
 
@@ -215,7 +268,13 @@ Set 'org/gnome/software/download-updates' to false.
 
 Torrent Speed Using VPN
 ----------------------------------------
-Make sure 'utp' is disabled to get good speed using a VPN.
+https://airvpn.org/faq/p2p/
+
+Disable UTP
+Disable UPnP/Nat-PMP
+
+Change 'Maximum peers per torrent' from 250 to 50
+Change 'Maximum peers overall' from 500 to 100
 
 
 
